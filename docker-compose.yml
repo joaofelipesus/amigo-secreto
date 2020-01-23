@@ -23,8 +23,9 @@ services:
     command: bash start_jobs.sh
     volumes:
       - '.:/nosso_amigo_secreto'
-    volumes_from:
-      - box
+      - bundle_cache:/bundle_cache
+    environment:
+      - BUNDLE_PATH=/bundle_cache
 
   website:
     depends_on:
@@ -36,17 +37,22 @@ services:
       - '3000:3000'
     volumes:
       - '.:/nosso_amigo_secreto'
-    volumes_from:
-    - box
+      - bundle_cache:/bundle_cache
+    environment:
+      - BUNDLE_PATH=/bundle_cache
 
-  box:
+  bundle_cache:
     image: busybox
     volumes:
-      - /box
+      - bundle_cache:/bundle_cache
 
-
+  mailcatcher:
+    image: yappabe/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
 
 volumes:
   redis:
   postgres:
-  box:
+  bundle_cache:
