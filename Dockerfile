@@ -1,7 +1,7 @@
 FROM ruby:2.5.1-slim
 
-ENV http_proxy http://proxy.cdapp.net.br:3128
-ENV https_proxy http://proxy.cdapp.net.br:3128
+#ENV http_proxy http://proxy.cdapp.net.br:3128
+#ENV https_proxy http://proxy.cdapp.net.br:3128
 
 # Instala nossas dependencias
 RUN apt-get update && apt-get install -qq -y --no-install-recommends \
@@ -11,11 +11,20 @@ RUN apt-get update && apt-get install -qq -y --no-install-recommends \
 RUN apt-get install -y gnupg
 
 # Instalar NodeJS v8
-RUN curl -sL https://deb.nodesource.com/setup_8.x --proxy http://proxy.cdapp.net.br:3128 | bash - \
+#RUN curl -sL https://deb.nodesource.com/setup_8.x --proxy http://proxy.cdapp.net.br:3128 | bash - \
+#    && apt-get install -y nodejs
+
+# Instalar o Yarn
+#RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg --proxy http://proxy.cdapp.net.br:3128 | apt-key add - \
+#    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+#    && apt-get update && apt-get install -y yarn
+
+# Instalar NodeJS v8
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y nodejs
 
 # Instalar o Yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg --proxy http://proxy.cdapp.net.br:3128 | apt-key add - \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && apt-get update && apt-get install -y yarn
 
